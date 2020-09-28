@@ -30,12 +30,30 @@ class Test_coord_to_dms(unittest.TestCase):
 class Test_parse_csv(unittest.TestCase):
     def test_import(self):
         Test_CSVres = [
-                ["1", [88,30,25.528,"N"], [103,35,35.0,"W"], "NAD83",
-                56, 201, "No Traverseway", "No"],
-                ["1_1", [90,45,17.5891,"S"], [103,20,18.75,"E"], "NAD83",
-                700, 151, "No Traverseway", "No"],
-                ["Turbine #3", [85,27,12.636,"S"], [97,53,28.824,"W"], "NAD27",
-                1001, 500, "Public Roadway", "No"]]
+                {"str_desc": "1",
+                "latD": 88, "latM": 30, "latS": 25.528, "latDir": "N",
+                "longD": 103, "longM": 35, "longS": 35.0, "longDir": "W",
+                "datum": "NAD83",
+                "siteElevation": 56,
+                "unadjustedAgl": 201,
+                "traverseway": "No Traverseway",
+                "onAirport": "No"},
+                {"str_desc": "1_1",
+                "latD": 90, "latM": 45, "latS": 17.5891, "latDir": "S",
+                "longD": 103, "longM": 20, "longS": 18.75, "longDir": "E",
+                "datum": "NAD83",
+                "siteElevation": 700,
+                "unadjustedAgl": 151,
+                "traverseway": "No Traverseway",
+                "onAirport": "No"},
+                {"str_desc": "Turbine #3",
+                "latD": 85,"latM": 27,"latS": 12.636, "latDir": "S",
+                "longD": 97, "longM": 53, "longS": 28.824, "longDir": "W",
+                "datum": "NAD27",
+                "siteElevation": 1001,
+                "unadjustedAgl": 500,
+                "traverseway": "Public Roadway",
+                "onAirport": "No"}]
         test_csv_path = os.path.join(TESTPATH,"test_data_csv.csv")
         self.assertEqual(parse_csv.readcsv(test_csv_path), Test_CSVres)
 

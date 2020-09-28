@@ -14,6 +14,8 @@ def readcsv(in_file):
         in_reader = csv.reader(csvfile, delimiter=',')
         # skip header row
         next(in_reader)
+        # process the temporary list data item by item
+        # each list entry is a dictionary tagged with the web form ids
         for row in in_reader:
             structure_des = utils.sanitize_des(str(row[0]), platform.platform()) # structure designation
             lat = utils.coord_to_dms(row[1], "lat") # latitude
@@ -24,7 +26,13 @@ def readcsv(in_file):
             str_ht = math.ceil(float(row[5])) # structure height (ft)
             traverseway = row[6].strip() # Traverseway
             on_airport = row[7].strip() # Is on airport?
-            tmp_list.append([structure_des, lat, longitude, datum,
-                    ele, str_ht, traverseway, on_airport])
-    # process the temporary list data item by item
+            tmp_list.append(
+                {"str_desc": structure_des,
+                    "latD": lat[0],"latM": lat[1],"latS": lat[2],"latDir": lat[3],
+                    "longD": longitude[0],"longM": longitude[1],"longS": longitude[2],"longDir": longitude[3],
+                    "datum": datum,
+                    "siteElevation": ele,
+                    "unadjustedAgl": str_ht,
+                    "traverseway": traverseway,
+                    "onAirport": on_airport})
     return tmp_list
