@@ -49,7 +49,7 @@ def coord_to_dms(coord, lat_or_long):
         proc_coord = float(proc_coord)
         tmp_D = math.floor(proc_coord)
         tmp_M = math.floor((proc_coord - tmp_D)*60)
-        tmp_S = round(((proc_coord - tmp_D)*60 -tmp_M)*60,5)
+        tmp_S = round(((proc_coord - tmp_D)*60 -tmp_M)*60,2)
         tmp_dms[0] = int(tmp_D)
         tmp_dms[1] = int(tmp_M)
         tmp_dms[2] = tmp_S
@@ -75,3 +75,20 @@ def sanitize_des(str_des, platform):
     else:
         tmp_res = tmp_res.replace("/", "_")
     return tmp_res
+
+FORM_IDS = [
+        "latD",
+        "latM",
+        "latS",
+        "latDir",
+        "longD",
+        "longM",
+        "longS",
+        "longDir",
+        "datum",
+        "siteElevation",
+        "unadjustedAgl",
+        #"structureHeight",
+        "traverseway",
+        "onAirport"
+        ]
