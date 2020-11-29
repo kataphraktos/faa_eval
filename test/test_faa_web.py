@@ -15,7 +15,6 @@ class Test_web_response(unittest.TestCase):
                 "datum": "NAD83",
                 "siteElevation": "56",
                 "unadjustedAgl": "201",
-                #"structureHeight": 201,
                 "traverseway": "No Traverseway",
                 "onAirport": "false"},
                 {"str_desc": "1_1",
@@ -24,7 +23,6 @@ class Test_web_response(unittest.TestCase):
                 "datum": "NAD83",
                 "siteElevation": 700,
                 "unadjustedAgl": 151,
-                #"structureHeight": 151,
                 "traverseway": "No Traverseway",
                 "onAirport": "false"},
                 {"str_desc": "Turbine #3",
@@ -33,7 +31,6 @@ class Test_web_response(unittest.TestCase):
                 "datum": "NAD27",
                 "siteElevation": 1001,
                 "unadjustedAgl": 500,
-                #"structureHeight": 500,
                 "traverseway": "Public Roadway",
                 "onAirport": "false"}]
         test = faa_web.faa_web(Test_CSVres)

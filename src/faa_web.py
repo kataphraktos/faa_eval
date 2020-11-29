@@ -21,17 +21,22 @@ class faa_web:
     def __init__(self, arglist):
         URL = "https://oeaaa.faa.gov/oeaaa/external/gisTools/gisAction.jsp?action=showNoNoticeRequiredToolForm"
         names = []
+        pages = []
         self.url = URL
         # TODO: add error handling
-        self._resp = self._get_web(arglist)
+        self._resp = self._get_faa_web(arglist)
         # TODO: use ref_links in page output
         for i in range(len(arglist)):
             names.append(arglist[i].get("str_desc"))
         self.names = names
+        for entry in self._resp:
+            pages.append(BeautifulSoup(entry, 'html.parser').prettify())
+        self.pages = pages
         self.ref_links = self._scrape_links()
+        self.ref_pages = self._get_ref_web()
         self.results = self._scrape_result()
 
-    def _get_web(self, arglist):
+    def _get_faa_web(self, arglist):
         resp = []
         driver = webdriver.Chrome(executable_path=os.path.join(FAAPATH, 'chromedriver'))
         driver.get(self.url)
@@ -48,6 +53,15 @@ class faa_web:
                     ele.send_keys(arglist[i][form_id])
             ele.send_keys(Keys.RETURN)
             resp.append(driver.page_source)
+        driver.quit()
+        return resp
+
+    def _get_ref_web(self):
+        resp = []
+        driver = webdriver.Chrome(executable_path=os.path.join(FAAPATH, 'chromedriver'))
+        for ref_link in self.ref_links:
+            driver.get(ref_link.url)
+            resp.append(BeautifulSoup(driver.page_source, 'html.parser').prettify())
         driver.quit()
         return resp
 
