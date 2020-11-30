@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+import pickle
 TESTPATH = os.path.dirname(os.path.abspath(__file__))
 FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, FAAPATH)
@@ -34,6 +35,10 @@ class Test_web_response(unittest.TestCase):
                 "traverseway": "Public Roadway",
                 "onAirport": "false"}]
         test = faa_web.faa_web(Test_CSVres)
+        # pickle the test result for later testing
+        faa_test_path = os.path.join(TESTPATH, ".result", 'faa_web_test.pkl')
+        with open(faa_test_path, 'wb') as output:
+            pickle.dump(test, output, pickle.HIGHEST_PROTOCOL)
         self.assertEqual(["Yes", "No", "Yes"], test.results)
 
 if __name__ == '__main__':
