@@ -25,15 +25,12 @@ class faa_web:
         self.url = URL
         # TODO: add error handling
         self._resp = self._get_faa_web(arglist)
-        # TODO: use ref_links in page output
         for i in range(len(arglist)):
             names.append(arglist[i].get("str_desc"))
         self.names = names
-        for entry in self._resp:
-            pages.append(BeautifulSoup(entry, 'html.parser').prettify())
-        self.pages = pages
         self.ref_links = self._scrape_links()
         self.ref_pages = self._get_ref_web()
+        self.pages = self._page_result()
         self.results = self._scrape_result()
 
     def _get_faa_web(self, arglist):
@@ -76,10 +73,29 @@ class faa_web:
         return res
 
     def _scrape_links(self):
-        # Pull the links for only the first entry; the rest should be the same
+        # Pull the links for only the first entry, except for maps which always change
         ref_links = []
         resp_soup = BeautifulSoup(self._resp[0], 'html.parser')
+        #CSS/JS, a few images
         for ref in resp_soup.find_all("link"):
             ref_links.append(
                 requests.get(urljoin(self.url,ref.attrs.get("href"))))
+        #images/maps
+        # TODO: handle image output, write a map for each response
+        for ref in resp_soup.find_all("img"):
+            ref_links.append(
+                requests.get(urljoin(self.url,ref.attrs.get("src"))))
         return ref_links
+
+    def _page_result(self):
+        # Return formatted HTML pages, add local references for ref files
+        tmp_pages = []
+        pages = []
+        for entry in self._resp:
+            tmp_pages.append(BeautifulSoup(entry, 'html.parser').prettify())
+        for page in tmp_pages:
+            tmp_page = page
+            for link in self.ref_links:
+                tmp_page = tmp_page.replace(link.request.path_url, "."+link.request.path_url)
+            pages.append(tmp_page)
+        return pages
