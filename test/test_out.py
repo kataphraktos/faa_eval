@@ -17,12 +17,19 @@ class Test_output_writer(unittest.TestCase):
         cls.faa_test = faa_test
 
     def test_results(self):
+        res = []
         print_file.write_result_csv(self.faa_test, self.local_result_path)
-        self.assertEqual('1', self.faa_test)
+        res_path = [os.path.join(self.local_result_path, "1.html"),
+            os.path.join(self.local_result_path, "1_1.html"),
+            os.path.join(self.local_result_path, "Turbine #3.html")]
+        for run_path in res_path:
+            res.append(os.path.exists(run_path))
+        self.assertEqual([True, True, True], res)
 
     def test_webfiles(self):
         print_file.write_webfiles(self.faa_test, self.local_result_path)
-        self.assertEqual('1', self.faa_test)
+        res_path = os.path.join(self.local_result_path, "oeaaa", "external", "images", "favicon.png")
+        self.assertEqual(True, os.path.exists(res_path))
 
 if __name__ == '__main__':
     unittest.main()
