@@ -19,45 +19,73 @@ def write_result_csv(faa_obj, out_fp):
             out_writer.writerow([faa_obj.names[i], faa_obj.results[i]])
 
 def write_webfiles(faa_obj, out_fp):
-    # Write result web pages
-    for i in range(len(faa_obj.pages)):
-        page_fp = local_path(out_fp, faa_obj.names[i], ".html")
-        with open(page_fp, 'w') as outpath:
-            outpath.write(faa_obj.pages[i])
     # make reference page directories if they don't exist
     _refs_mkdirs(out_fp,
             [["oeaaa", "external"],
             ["oeaaa", "external", "maps"],
             ["oeaaa", "external", "images", "layout"],
             ["oeaaa", "external", "include", "css"]])
+    # Write structure results, page formatting refs, and structure maps
+    _write_result_pages(faa_obj, out_fp)
+    _write_web_refs(faa_obj, out_fp)
+    _write_web_maps(faa_obj, out_fp)
+
+def local_path(path, file_name, *args):
+    # create a path on the local machine for the file
+    # *args is an optional parameter storing the file extension
+    parse_fn = os.path.basename(file_name)
+    res = os.path.join(path, parse_fn + args[0])
+    return res
+
+def rel_path(url, ref_obj_url,):
+    # filter out the common path on referenced object
+    common_path = os.path.commonpath([url, ref_obj_url])
+    res = os.path.dirname(ref_obj_url[len(common_path)+2:])
+    return res
+
+def _write_web_refs(faa_obj, out_fp):
+    # Write result web pages for page formatting
     # Write reference pages - JS and CSS
     for i in range(len(faa_obj.ref_pages)):
         # filter out the common path so the ref file can go to a subdirectory
-        common_path = os.path.commonpath(
-                [faa_obj.url, faa_obj.ref_links[i].url])
-        ref_path = os.path.dirname(faa_obj.ref_links[i].url[len(common_path)+2:])
-        ref_path = os.path.join(out_fp, "oeaaa", "external", ref_path)
+        ref_path = os.path.join(
+            out_fp,
+            "oeaaa",
+            "external",
+            rel_path(faa_obj.url, faa_obj.ref_links[i].url))
         ref_file = os.path.basename(faa_obj.ref_links[i].url)
         page_fp = local_path(ref_path, ref_file, "")
         if(
-            ".png" in ref_file or
             ".ico" in ref_file or
             ".gif" in ref_file
             ):
-            #remove addressing after filename if present (mapped pngs)
-            if ref_file.find(".")+4 != len(ref_file):
-                ref_file = ref_file[:ref_file.find(".")+4]
-                page_fp = local_path(ref_path, ref_file, "")
             ref_img = Image.open(io.BytesIO(faa_obj.ref_links[i].content))
             ref_img = ref_img.save(page_fp)
         else:
             with open(page_fp, 'w') as outpath:
                 outpath.write(faa_obj.ref_pages[i])
 
-def local_path(path, file_name, *args):
-    parse_fn = os.path.basename(file_name)
-    res = os.path.join(path, parse_fn + args[0])
-    return res
+def _write_result_pages(faa_obj, out_fp):
+    # Write the HTML result page for each structure
+    for i in range(len(faa_obj.pages)):
+        page_fp = local_path(out_fp, faa_obj.names[i], ".html")
+        with open(page_fp, 'w') as outpath:
+            outpath.write(faa_obj.pages[i])
+
+def _write_web_maps(faa_obj, out_fp):
+    # Write the web map images
+    for i in range(len(faa_obj.ref_maps)):
+        ref_path = os.path.join(
+            out_fp,
+            "oeaaa",
+            "external",
+            rel_path(faa_obj.url, faa_obj.ref_maps[i].url))
+        ref_file = os.path.basename(faa_obj.ref_maps[i].url)
+    #remove addressing after filename for mapped image
+        ref_file = utils.local_map(ref_file)
+        page_fp = local_path(ref_path, ref_file, "")
+        ref_img = Image.open(io.BytesIO(faa_obj.ref_maps[i].content))
+        ref_img = ref_img.save(page_fp)
 
 def _refs_mkdirs(out_fp, sub_dirs):
     for sub_dir in sub_dirs:

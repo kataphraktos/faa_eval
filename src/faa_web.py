@@ -3,32 +3,31 @@
 # for each entry in the csv. The referenced files for the first csv are also
 # downloaded.
 
-from urllib.parse import urljoin
 import requests
 import os
 import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 SRCPATH = os.path.dirname(os.path.abspath(__file__))
 FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, SRCPATH)
-from utils import FORM_IDS
+from utils import FORM_IDS, local_map
 
 class faa_web:
 
     def __init__(self, arglist):
         URL = "https://oeaaa.faa.gov/oeaaa/external/gisTools/gisAction.jsp?action=showNoNoticeRequiredToolForm"
         names = []
-        pages = []
         self.url = URL
         # TODO: add error handling
         self._resp = self._get_faa_web(arglist)
         for i in range(len(arglist)):
             names.append(arglist[i].get("str_desc"))
         self.names = names
-        self.ref_links = self._scrape_links()
+        self.ref_links, self.ref_maps = self._scrape_links()
         self.ref_pages = self._get_ref_web()
         self.pages = self._page_result()
         self.results = self._scrape_result()
@@ -73,19 +72,25 @@ class faa_web:
         return res
 
     def _scrape_links(self):
-        # Pull the links for only the first entry, except for maps which always change
-        ref_links = []
-        resp_soup = BeautifulSoup(self._resp[0], 'html.parser')
-        #CSS/JS, a few images
-        for ref in resp_soup.find_all("link"):
-            ref_links.append(
-                requests.get(urljoin(self.url,ref.attrs.get("href"))))
-        #images/maps
-        # TODO: handle image output, write a map for each response
-        for ref in resp_soup.find_all("img"):
-            ref_links.append(
-                requests.get(urljoin(self.url,ref.attrs.get("src"))))
-        return ref_links
+        # Pull the links for only the first entry
+        # except for maps which always change and are stored separately
+        page_ref_links = []
+        ref_maps = []
+        for i in range(len(self._resp)):
+            resp_soup = BeautifulSoup(self._resp[i], 'html.parser')
+            # CSS/JS, a few images - only for the first entry
+            if i == 0:
+                for ref in resp_soup.find_all("link"):
+                    href = ref.attrs.get("href")
+                    page_ref_links.append(requests.get(urljoin(self.url,href)))
+            # images ref'd on the page - only for the first entry unless a map
+            for ref in resp_soup.find_all("img"):
+                src = ref.attrs.get("src")
+                if "maps" in src:
+                    ref_maps.append(requests.get(urljoin(self.url,src)))
+                elif i == 0:
+                    page_ref_links.append(requests.get(urljoin(self.url,src)))
+        return page_ref_links, ref_maps
 
     def _page_result(self):
         # Return formatted HTML pages, add local references for ref files
@@ -97,5 +102,8 @@ class faa_web:
             tmp_page = page
             for link in self.ref_links:
                 tmp_page = tmp_page.replace(link.request.path_url, "."+link.request.path_url)
+            for link in self.ref_maps:
+                ref_url = local_map(link.request.path_url)
+                tmp_page = tmp_page.replace(link.request.path_url, "."+ref_url)
             pages.append(tmp_page)
         return pages
