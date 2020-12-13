@@ -2,6 +2,7 @@ import unittest
 import os
 import sys
 import pickle
+import csv
 TESTPATH = os.path.dirname(os.path.abspath(__file__))
 FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, FAAPATH)
@@ -15,21 +16,40 @@ class Test_output_writer(unittest.TestCase):
         with open(faa_test_path, 'rb') as in_test:
             faa_test = pickle.load(in_test)
         cls.faa_test = faa_test
+        #write csv of results
+        print_file.write_result_csv(cls.faa_test, cls.local_result_path)
+        #print all web files - individual tests check for certain files
+        print_file.write_webfiles(cls.faa_test, cls.local_result_path)
 
-    def test_results(self):
+    def test_csv_results(self):
         res = []
-        print_file.write_result_csv(self.faa_test, self.local_result_path)
-        res_path = [os.path.join(self.local_result_path, "1.html"),
+        with open(os.path.join(self.local_result_path, "results.csv")) as resf:
+            res_reader = csv.reader(resf)
+            for row in res_reader:
+                res.append(row[1])
+        self.assertEqual(["Need to File?", "Yes", "No", "Yes"], res)
+
+    def test_res_page(self):
+        res = []
+        res_path = [
+            os.path.join(self.local_result_path, "1.html"),
             os.path.join(self.local_result_path, "1_1.html"),
-            os.path.join(self.local_result_path, "Turbine #3.html")]
+            os.path.join(self.local_result_path, "Turbine #3.html")
+            ]
         for run_path in res_path:
             res.append(os.path.exists(run_path))
         self.assertEqual([True, True, True], res)
 
     def test_webfiles(self):
-        print_file.write_webfiles(self.faa_test, self.local_result_path)
-        res_path = os.path.join(self.local_result_path, "oeaaa", "external", "images", "favicon.png")
-        self.assertEqual(True, os.path.exists(res_path))
+        res = []
+        res_path = [
+            os.path.join(self.local_result_path, "oeaaa", "external", "images", "favicon.png"),
+            os.path.join(self.local_result_path, "oeaaa", "external", "images", "layout", "head_logo_left.gif"),
+            os.path.join(self.local_result_path, "oeaaa", "external", "include", "css", "oeaaaExternal.css")
+        ]
+        for run_path in res_path:
+            res.append(os.path.exists(run_path))
+        self.assertEqual([True, True, True], res)
 
 if __name__ == '__main__':
     unittest.main()
