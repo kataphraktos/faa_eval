@@ -76,6 +76,13 @@ def sanitize_des(str_des, platform):
         tmp_res = tmp_res.replace("/", "_")
     return tmp_res
 
+# Remove characters after a png map image name to save locally
+def local_map(ref_name):
+    if ref_name.find(".")+4 != len(ref_name):
+        return ref_name[:ref_name.find(".")+4]
+    else:
+        return ref_name
+
 FORM_IDS = [
         "latD",
         "latM",
