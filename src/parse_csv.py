@@ -26,9 +26,9 @@ def readcsv(in_file):
             str_ht = math.ceil(float(row[5])) # structure height (ft)
             traverseway = row[6].strip() # Traverseway
             if row[7].strip() == 'Yes':
-                on_airport = True # Is on airport?
+                on_airport = "true" # Is on airport?
             else:
-                on_airport = False
+                on_airport = "false"
             tmp_list.append(
                 {"str_desc": structure_des,
                     "latD": lat[0],"latM": lat[1],"latS": lat[2],"latDir": lat[3],
