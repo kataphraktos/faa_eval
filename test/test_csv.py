@@ -31,7 +31,7 @@ class Test_parse_csv(unittest.TestCase):
     def test_import(self):
         Test_CSVres = [
                 {"str_desc": "1",
-                "latD": 88, "latM": 30, "latS": 25.53, "latDir": "N",
+                "latD": -5, "latM": 30, "latS": 25.53, "latDir": "N",
                 "longD": 103, "longM": 35, "longS": 35.0, "longDir": "W",
                 "datum": "NAD83",
                 "siteElevation": 56,
@@ -39,7 +39,7 @@ class Test_parse_csv(unittest.TestCase):
                 "traverseway": "No Traverseway",
                 "onAirport": False},
                 {"str_desc": "1_1",
-                "latD": 90, "latM": 45, "latS": 17.59, "latDir": "S",
+                "latD": 50, "latM": 45, "latS": 17.59, "latDir": "S",
                 "longD": 103, "longM": 20, "longS": 18.75, "longDir": "E",
                 "datum": "NAD83",
                 "siteElevation": 700,
@@ -47,7 +47,7 @@ class Test_parse_csv(unittest.TestCase):
                 "traverseway": "No Traverseway",
                 "onAirport": False},
                 {"str_desc": "Turbine #3",
-                "latD": 85,"latM": 27,"latS": 12.64, "latDir": "S",
+                "latD": 30,"latM": 27,"latS": 12.64, "latDir": "S",
                 "longD": 97, "longM": 53, "longS": 28.82, "longDir": "W",
                 "datum": "NAD27",
                 "siteElevation": 1001,
