@@ -46,7 +46,10 @@ class faa_web:
                     ele.click()
                 else:
                     ele.clear()
-                    ele.send_keys(arglist[i][form_id])
+                    if type(arglist[i][form_id]) is float:
+                        ele.send_keys(str(arglist[i][form_id]))
+                    else:
+                        ele.send_keys(arglist[i][form_id])
             ele.send_keys(Keys.RETURN)
             resp.append(driver.page_source)
         driver.quit()
