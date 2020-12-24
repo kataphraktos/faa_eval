@@ -31,13 +31,13 @@ class Test_parse_csv(unittest.TestCase):
     def test_import(self):
         Test_CSVres = [
                 {"str_desc": "1",
-                "latD": -5, "latM": 30, "latS": 25.53, "latDir": "N",
+                "latD": 5, "latM": 30, "latS": 25.53, "latDir": "N",
                 "longD": 103, "longM": 35, "longS": 35.0, "longDir": "W",
                 "datum": "NAD83",
                 "siteElevation": 56,
                 "unadjustedAgl": 201,
                 "traverseway": "No Traverseway",
-                "onAirport": False},
+                "onAirport": 'false'},
                 {"str_desc": "1_1",
                 "latD": 50, "latM": 45, "latS": 17.59, "latDir": "S",
                 "longD": 103, "longM": 20, "longS": 18.75, "longDir": "E",
@@ -45,7 +45,7 @@ class Test_parse_csv(unittest.TestCase):
                 "siteElevation": 700,
                 "unadjustedAgl": 151,
                 "traverseway": "No Traverseway",
-                "onAirport": False},
+                "onAirport": 'false'},
                 {"str_desc": "Turbine #3",
                 "latD": 30,"latM": 27,"latS": 12.64, "latDir": "S",
                 "longD": 97, "longM": 53, "longS": 28.82, "longDir": "W",
@@ -53,7 +53,7 @@ class Test_parse_csv(unittest.TestCase):
                 "siteElevation": 1001,
                 "unadjustedAgl": 500,
                 "traverseway": "Public Roadway",
-                "onAirport": False}]
+                "onAirport": 'false'}]
         test_csv_path = os.path.join(TESTPATH,"test_data_csv.csv")
         self.assertEqual(parse_csv.readcsv(test_csv_path), Test_CSVres)
 

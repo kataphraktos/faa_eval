@@ -11,7 +11,7 @@ class Test_web_response(unittest.TestCase):
     def test_web(self):
         Test_CSVres = [
                 {"str_desc": "1",
-                "latD": "-5", "latM": "30", "latS": "25.53", "latDir": "N",
+                "latD": "5", "latM": "30", "latS": "25.53", "latDir": "N",
                 "longD": "103", "longM": "35", "longS": "35.0", "longDir": "W",
                 "datum": "NAD83",
                 "siteElevation": "56",

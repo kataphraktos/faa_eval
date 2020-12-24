@@ -1,4 +1,4 @@
 Structure Designation, Latitude, Longitude, Horizontal Datum, Site Elevation (ft), Structure Height (ft), Traverseway?, Is structure on airport?
-1, -5d30'25.53"N, 103d35'35"W, NAD83, 55.9, 200.02, No Traverseway, No
+1, 5d30'25.53"N, 103d35'35"W, NAD83, 55.9, 200.02, No Traverseway, No
 1/1, 50d 45' 17.59"S, 103d20'18.75", NAD83, 700, 150.13, No Traverseway, No
-Turbine #3, 30.45351, 97.89134, NAD27, 1000.751, 499.5, Public Roadway, No
+Turbine #3, -30.45351, -97.89134, NAD27, 1000.751, 499.5, Public Roadway, No
