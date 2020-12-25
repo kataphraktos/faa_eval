@@ -10,7 +10,7 @@ import src.print_file as print_file
 
 def console_run():
     if len(sys.argv) == 1:
-        csv_fp = input("Enter the complete file path and name to the CSV: ")
+        csv_fp = input("Enter the name or path with name to the CSV: ")
         out_fp = input("Enter the file path where results will be saved: ")
     elif len(sys.argv) == 3:
         csv_fp = sys.argv[1]
