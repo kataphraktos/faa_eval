@@ -34,7 +34,7 @@ class faa_web:
 
     def _get_faa_web(self, arglist):
         resp = []
-        driver = webdriver.Chrome(executable_path=os.path.join(FAAPATH, 'chromedriver'))
+        driver = self.__get_headless_driver()
         driver.get(self.url)
         for i in range(len(arglist)):
             for form_id in FORM_IDS:
@@ -57,7 +57,7 @@ class faa_web:
 
     def _get_ref_web(self):
         resp = []
-        driver = webdriver.Chrome(executable_path=os.path.join(FAAPATH, 'chromedriver'))
+        driver = self.__get_headless_driver()
         for ref_link in self.ref_links:
             driver.get(ref_link.url)
             resp.append(BeautifulSoup(driver.page_source, 'html.parser').prettify())
@@ -110,3 +110,12 @@ class faa_web:
                 tmp_page = tmp_page.replace(link.request.path_url, "."+ref_url)
             pages.append(tmp_page)
         return pages
+
+    def __get_headless_driver(self):
+        driver_options = webdriver.chrome.options.Options()
+        driver_options.headless = True
+        driver = webdriver.Chrome(
+            executable_path=os.path.join(FAAPATH, 'chromedriver'),
+            options=driver_options
+            )
+        return driver
