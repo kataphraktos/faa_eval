@@ -3,8 +3,8 @@
 import unittest
 import os
 import sys
-TESTPATH = os.path.dirname(os.path.abspath(__file__))
-FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TESTPATH = os.path.dirname(os.path.realpath(__file__))
+FAAPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, FAAPATH)
 from src import utils, parse_csv
 

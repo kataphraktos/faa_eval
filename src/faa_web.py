@@ -11,8 +11,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-SRCPATH = os.path.dirname(os.path.abspath(__file__))
-FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRCPATH = os.path.dirname(os.path.realpath(__file__))
+FAAPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, SRCPATH)
 from utils import FORM_IDS, local_map
 

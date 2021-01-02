@@ -6,7 +6,7 @@ import sys
 import math
 from PIL import Image
 from pathlib import Path
-FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FAAPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, FAAPATH)
 import src.utils as utils
 

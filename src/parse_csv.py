@@ -3,7 +3,7 @@ import platform
 import os
 import sys
 import math
-FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FAAPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, FAAPATH)
 import src.utils as utils
 # Parse csv file into a format suitable for the faa site.
