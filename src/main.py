@@ -1,7 +1,8 @@
+#!/usr/bin/python3
 # combine csv and web parsing in a user interface. print results
 import os
 import sys
-FAAPATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FAAPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, FAAPATH)
 import src.faa_web as faa_web
 import src.parse_csv as parse_csv
@@ -10,7 +11,7 @@ import src.print_file as print_file
 
 def console_run():
     if len(sys.argv) == 1:
-        csv_fp = input("Enter the name or path with name to the CSV: ")
+        csv_fp = input("Enter the path with name to the CSV: ")
         out_fp = input("Enter the file path where results will be saved: ")
     elif len(sys.argv) == 3:
         csv_fp = sys.argv[1]
