@@ -1,8 +1,6 @@
 # faa_eval
-<!--
-Add this after completing a video
-(A video demonstrating the installation and use of the program on Windows can be found [here]().)
--->
+(A video demonstrating the installation and use of the program on Windows can be found [here](https://youtu.be/LOAakilAzmQ).)
+
 # Description
 **faa_eval** is a utility written in Python to automate inputs into the Federal Aviation Administration's online structure notification criteria tool found [here](https://oeaaa.faa.gov/oeaaa/external/gisTools/gisAction.jsp?action=showNoNoticeRequiredToolForm). The FAA's webform takes structure data and informs the submitter whether or not filing is required under Title 14, Part 77 of the *Code of Federal Regulations*. However, for large projects with many tall structures (such as power lines and wind farms), entering each structure individually is tedious and error-prone. **faa_eval** saves time by taking an input CSV file and running the webform for each structure, saving the resultant web page and the producing a summary of filing requirements. This summary can then be used in mapping programs such as Google Earth or ArcGIS to present results to clients, engineers, and other project stakeholders.
 
