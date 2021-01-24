@@ -46,8 +46,12 @@ Take care that the **Traverseway?** field matches that on the FAA website.
 
 ## Run
 1. Run **faa_eval**.
-2. **faa_eval** prompts for the input path with the CSV; enter the full path with file and press `Enter`.
-3. **faa_eval** then prompts for the output file path. Either input a path or press `Enter` to default to the path where the input CSV is located.
+2. **faa_eval** prompts for the input path with the CSV; either: 
+    * Press `Enter` to open a file picker and select the file.
+    * Enter text with the full path and file name and press `Enter`.
+3. **faa_eval** then prompts for the output file path; either:  
+    * Press `Enter` to default to the path from step 2.
+    * Input a path.
 
 ***Note***: The recommended and easy way to use **faa_eval** is to create a dated and tracked folder and use the folder for the input CSV and output.
 
@@ -57,6 +61,10 @@ Take care that the **Traverseway?** field matches that on the FAA website.
  user@sys:~$ ./faa_data/project_info.csv
  user@sys:~$ /home/user/faa_data/project_info.csv
  user@sys:~/faa_data$ project_info.csv
+ ```
+ Linux also allows arguments to be passed to the passed when running from console:
+ ```sh
+ user@sys:~/faa_data$ faa_eval project_info.csv results
  ```
 
 ## Output
@@ -70,6 +78,7 @@ Please use the "Issues" tab on GitHub to report any problems or bugs. When submi
  - A screenshot or text of the terminal output
  - CSV input data, as available or requested
 
+Note: sharing your CSV data on GitHub will make it publicly visible. Do not post sensitive or client data.
 Contributions are welcome.
 
 # License
