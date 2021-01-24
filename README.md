@@ -62,7 +62,7 @@ Take care that the **Traverseway?** field matches that on the FAA website.
  user@sys:~$ /home/user/faa_data/project_info.csv
  user@sys:~/faa_data$ project_info.csv
  ```
- Linux also allows arguments to be passed to the passed when running from console:
+ Linux also allows arguments to be passed to the program when running from console:
  ```sh
  user@sys:~/faa_data$ faa_eval project_info.csv results
  ```
